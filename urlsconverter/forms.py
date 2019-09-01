@@ -5,4 +5,4 @@ from .models import Urlshorter
 class UrlForms(forms.ModelForm):
     class Meta:
         model = Urlshorter
-        fields = ['url_short']
+        fields = ['url_long']

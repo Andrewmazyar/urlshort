@@ -19,5 +19,5 @@ from urlsconverter.views import UrlsViews
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('main', UrlsViews.as_view(), name='main'),
+    path('', UrlsViews.as_view(), name='main'),
 ]
