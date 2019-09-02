@@ -1,32 +1,31 @@
-from django.views.generic import CreateView
+from django.views.generic import CreateView, DetailView
 from .models import Urlshorter
 from .forms import UrlForms
 from .shortener import Shorter
-from django.shortcuts import render
-from django.http import HttpResponseRedirect
+from django.urls import reverse
 
 
 class UrlsViews (CreateView):
     model = Urlshorter
     form_class = UrlForms
     template_name = 'main.html'
-    context_name = 'link'
 
-    def post(self, request):
-        form = self.form_class(request.POST)
-        a = ''
-        if form.is_valid():
-            new_url = form.save(commit=True)
-            a = Shorter().issue()
-            new_url.url_short = a
-            new_url.save()
-            return HttpResponseRedirect('/')
-        else:
-            form = UrlForms
-            a = 'invalid url'
+    def form_valid(self, form):
+        new_url = form.save(commit=True)
+        a = Shorter().issue()
+        new_url.url_short = a
+        new_url.save()
+        form.instance.url = new_url
+        return super(UrlsViews, self).form_valid(form)
 
-        return render(request, {'form': form, 'a': a})
+    def get_success_url(self):
+        return reverse('detail', args=(self.object.id,))
 
-    def get(request, token):
-        long_url = Urlshorter.objects.filter(url_short=token)
-        return render(request, long_url.url_long())
+
+class UrlsDetailView(DetailView):
+    model = Urlshorter
+    context_object_name = 'link'
+    template_name = 'detail.html'
+    pk_url_kwarg = 'link_id'
+
+

@@ -15,9 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from urlsconverter.views import UrlsViews
+from urlsconverter.views import UrlsViews, UrlsDetailView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('detail/<int:link_id>', UrlsDetailView.as_view(), name='detail'),
     path('', UrlsViews.as_view(), name='main'),
 ]
