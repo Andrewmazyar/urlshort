@@ -16,7 +16,7 @@ greenlet==0.4.9
 httplib2==0.9.1
 idna==2.0
 louis==2.6.4
-lxml==3.5.0
+lxml==4.6.3
 Mako==1.0.3
 oauthlib==1.0.3
 onboard==1.2.0
